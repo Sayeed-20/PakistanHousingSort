@@ -1,10 +1,10 @@
+# Reference: https://www.programiz.com/dsa/heap-data-structure
+
 class Node:
     def __init__(self, val):
         self.val = val
 
-    def setRelatives(self, left, right, parent):
-        self.left = left
-        self.right = right
+    def setParent(self, parent):
         self.parent = parent
 
 
@@ -13,24 +13,42 @@ class Node:
 
 class Heap:
 
-    def __init__(self, arr):
+    def __init__(self, arr, type):
         self.arr = arr
+        self.type = type # min or max
 
 
     def insert(self, val):
         newNode = Node(val)
         self.arr.append(newNode);
         nodeIndex = len(self.arr) - 1;
-        self.arr.append(0);
-        self.arr.append(0);
-        newNode.setRelatives(self.arr[-2], self.arr[-1], self.arr[(nodeIndex - 1) / 2])
+        if nodeIndex != 0:
+            newNode.setParent(self.arr[(nodeIndex - 1) // 2])
 
+        if self.type == "max":
+            while newNode.parent and newNode.parent < newNode:
+                currParent = newNode.parent
+                parentIndex = self.arr.index(currParent)
+                self.arr[nodeIndex], self.arr[parentIndex] = self.arr[parentIndex], self.arr[nodeIndex]
+                newNode.setParent(currParent.parent)
+                currParent.setParent(newNode)
+                nodeIndex = parentIndex
+        else:
+            while newNode.parent and newNode.parent > newNode:
+                currParent = newNode.parent
+                parentIndex = self.arr.index(currParent)
+                self.arr[nodeIndex], self.arr[parentIndex] = self.arr[parentIndex], self.arr[nodeIndex]
+                newNode.setParent(currParent.parent)
+                currParent.setParent(newNode)
+                nodeIndex = parentIndex
 
 
     def heapify(self):
+        if self.type == "max":
 
 
-def heapSort():
+
+def heapSort(inputArr):
     # For item in arr, add to new heap
 
 
