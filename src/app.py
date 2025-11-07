@@ -1,8 +1,11 @@
-from dash import Dash, html, dcc, Input, Output
+from dash import Dash, html, dcc, Input, Output, dash_table
 import pandas as pd
 
 from mapping import createFig
 from dictionaries import *
+from quicksort import *
+from mergesort import *
+from parseSelectedData import *
 
 
 # Read dataset
@@ -22,10 +25,41 @@ app.layout = html.Div([
             figure=createFig(df, selectedCities, selectedPropTypes, selectedBedrooms, selectedBathrooms),
             style={'width': '70%'}
         ),
+        # now display table of data in the middle
+        html.Div([
+            html.H3("Sorted Housing Data"),
+            dash_table.DataTable(
+                id='housing-table',
+                columns=[{"name": i, "id": i} for i in df.columns],
+                # TODO: set data equal to a dictionary representing the updated data
+                 data=df.to_dict("records"),
+                style_table={'height': '600px', 'overflowY': 'auto'},
+                style_cell={'textAlign': 'left', 'padding': '5px'},
+                style_header={'backgroundColor': 'lightgrey', 'fontWeight': 'bold'},
+                fixed_rows={'headers': True},
+                page_action='none',
+                virtualization=True
+            )
+        ], style={
+            'width': '60%',
+            'padding': '0 20px',
+            'overflowY': 'scroll',
+            'border': '1px solid #ccc'
+        }),
 
         # filters and dropdowns for all selections
         html.Div([
-            # select multiple cities
+
+            # select which sorting method
+            dcc.Dropdown(
+                ['QuickSort Ascending', 'MergeSort Ascending', 'QuickSort Descending', 'MergeSort Descending'],
+                id='sorting-options',
+                multi=False,
+                placeholder="Choose how you would like to sort it"
+            ),
+            html.Div(id='dd-output-container-sorting'),
+
+            # select which city
             dcc.Dropdown(
                 ['Faisalabad', 'Islamabad', 'Karachi', 'Lahore', 'Rawalpindi'],
                 id='city selection',
@@ -60,12 +94,15 @@ app.layout = html.Div([
                 placeholder="Multi-select number of bathrooms"
             ),
             html.Div(id='dd-output-container-bathroom'),
+
         ], style={'width': '25%', 'padding': '0 20px', 'display': 'flex', 'flexDirection': 'column', 'gap': '10px'})
     ], style={'display': 'flex', 'justifyContent': 'space-between'})
 ])
 
 @app.callback(
     Output('All of Pakistan', 'figure'),
+    Output('housing-table', 'data'),
+    Input('sorting-options', 'value'),
     Input('city selection', 'value'),
     Input('number of bedrooms selection', 'value'),
     Input('number of bathrooms selection', 'value'),
@@ -83,6 +120,11 @@ def update_figure(cities, bedrooms, bathrooms, propTypes):
         selectedPropTypes[propType] = propType in propTypes if propType else False
 
     return createFig(df, selectedCities, selectedPropTypes, selectedBedrooms, selectedBathrooms)
+
+# TODO: implement update table with updated dictionary of data,
+#  make sure it implements merge and quick sort as needed
+# def update_table():
+#     df = getSelectedData()
 
 if __name__ == '__main__':
     app.run(debug=True)
