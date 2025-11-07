@@ -29,7 +29,3 @@ class Dataset:
             self.sortOrder = "descending"
         elif self.sortOrder == "descending":
             self.sortOrder = "ascending"
-
-
-
-
