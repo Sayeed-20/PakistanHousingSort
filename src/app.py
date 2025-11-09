@@ -62,7 +62,7 @@ app.layout = html.Div([
             dcc.Dropdown(
                 ['Faisalabad', 'Islamabad', 'Karachi', 'Lahore', 'Rawalpindi'],
                 id='city selection',
-                multi=True, value='Islamabad',
+                multi=True, value=all_cities,
                 placeholder="Select which cities"
             ),
             html.Div(id='dd-output-container-city'),
