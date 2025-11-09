@@ -69,7 +69,7 @@ app.layout = html.Div([
 
             # Select which property types
             dcc.Dropdown(
-                ["House", "Penthouse", "Flat", "Farm House", "Lower Portion", "Upper Portion"],
+                ["House", "Penthouse", "Flat", "Farm House", "Lower Portion", "Upper Portion", "Room"],
                 id='property type selection',
                 multi=True, value=all_types,
                 placeholder="Select which property types"

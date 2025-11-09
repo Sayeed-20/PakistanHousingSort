@@ -5,11 +5,12 @@ selectedCities = {"Islamabad": False,
             "Karachi": False}
 
 selectedPropTypes = {"Flat": False,
-                 "House": False,
-                 "Penthouse": False,
-                 "Farm House": False,
-                 "Lower Portion": False,
-                 "Upper Portion": False}
+             "Room": False,
+             "House": False,
+             "Penthouse": False,
+             "Farm House": False,
+             "Lower Portion": False,
+             "Upper Portion": False}
 
 selectedBedrooms = {"0": False,
             "1": False,
@@ -53,6 +54,6 @@ selectedBathrooms = {"0": False,
              "403": False}
 
 all_cities = ['Faisalabad', 'Islamabad', 'Karachi', 'Lahore', 'Rawalpindi']
-all_types = ["House", "Penthouse", "Flat", "Farm House", "Lower Portion", "Upper Portion"]
+all_types = ["House", "Penthouse", "Flat", "Farm House", "Lower Portion", "Upper Portion", "Room"]
 all_bedrooms = [str(i) for i in range(0, 29) if i != 26]
 all_bathrooms = [str(i) for i in range(0, 15)]
